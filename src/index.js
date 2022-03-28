@@ -41,7 +41,8 @@ taskField.addEventListener('keyup', (e) => {
     Addtasks(e.target.value);
     e.target.value = '';
     displaytask(taskDes);
-  } else if (e.keyCode === 13 || e.keyCode === 16 ) {
+  } else if (e.keyCode === 13 || e.keyName === 'Enter') {
+    if (!isEmpty(taskField.value)) {
       Addtasks(e.target.value);
       e.target.value = '';
       displaytask(taskDes);
