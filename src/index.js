@@ -1,7 +1,5 @@
-/* eslint-disable import/named */
-/* eslint-disable import/no-cycle */
 /* eslint-disable no-unused-vars */
-import _, { isEmpty, remove } from 'lodash';
+import _, { isEmpty } from 'lodash';
 import './style.css';
 import Addtasks from './AddTask.js';
 import removetasks from './RemoveTask.js';
@@ -14,34 +12,27 @@ const taskDes = JSON.parse(localStorage.getItem('Taskdescription')) || [];
 
 const displaytask = (taskDes) => {
   tasklist.innerHTML = ' ';
-  if (taskDes) {
-    taskDes.forEach((item, index) => {
-      const li = document.createElement('li');
-      const checkbox = document.createElement('INPUT');
-      checkbox.setAttribute('type', 'checkbox');
-      checkbox.id = item.index;
-      checkbox.className = 'checkboxclass';
-      const label1 = document.createElement('INPUT');
-      label1.setAttribute('type', 'text');
-      label1.className = 'labelclass';
-      const text = item.description;
-      item.completed = 'false';
-      label1.value = text;
-      tasklist.appendChild(li);
-      li.appendChild(checkbox);
-      li.appendChild(label1);
-    });
-  }
+  taskDes.forEach((item) => {
+    const li = document.createElement('li');
+    const checkbox = document.createElement('INPUT');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.id = item.index;
+    checkbox.className = 'checkboxclass';
+    const label1 = document.createElement('INPUT');
+    label1.setAttribute('type', 'text');
+    label1.className = 'labelclass';
+    const text = item.description;
+    item.completed = 'false';
+    label1.value = text;
+    tasklist.appendChild(li);
+    li.appendChild(checkbox);
+    li.appendChild(label1);
+  });
 };
-displaytask(taskDes);
 
-taskField.addEventListener('keyup', (e) => {
-  e.stopImmediatePropagation();
-  if (isEmpty(taskDes)) {
-    Addtasks(e.target.value);
-    e.target.value = '';
-    displaytask(taskDes);
-  } else if (e.keyCode === 13 || e.keyName === 'Enter') {
+displaytask(taskDes);
+taskField.addEventListener('keydown', (e) => {
+  if (e.code === 'Enter') {
     if (!isEmpty(taskField.value)) {
       Addtasks(e.target.value);
       e.target.value = '';
@@ -89,7 +80,7 @@ for (let i = 0; i < checkboxes.length; i += 1) {
   });
 }
 
-const Refreshpage = (e) => {
+const Refreshpage = () => {
   for (let i = 0; i < checkboxes.length; i += 1) {
     if (checkboxes[i].checked === true) {
       labels[i].style.textDecoration = 'line-through';
